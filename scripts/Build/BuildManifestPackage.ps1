@@ -4,6 +4,9 @@ param (
     [string]$Environment = "dev"
 )
 
+# Windows PowerShell 5.1 does not define $IsWindows/$IsMacOS/$IsLinux.
+$isWindowsPlatform = ($PSVersionTable.PSEdition -eq "Desktop") -or ($null -ne (Get-Variable -Name IsWindows -ErrorAction SilentlyContinue) -and $IsWindows)
+
 Write-Host "Building Nuget Package ..."
 
 ################################################
@@ -179,13 +182,17 @@ if (-not (Test-Path $nugetPath)) {
     }
 }
 
-if($IsWindows){
+if ($isWindowsPlatform) {
     & $nugetPath pack $nuspecPath -OutputDirectory $outputDir -Verbosity detailed
 } else {
     # On Mac and Linux, we need to use mono to run the script
     # alternatively, we could use dotnet tool if available
     # nuget pack $nuspecFile -OutputDirectory $outputDir -Verbosity detailed 2>&1   
     mono $nugetPath pack $nuspecPath -OutputDirectory $outputDir -Verbosity detailed
+}
+
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed to build manifest package. NuGet pack exited with code $LASTEXITCODE."
 }
 
 Write-Host "✅ Created the new ManifestPackage in $outputDir." -ForegroundColor Blue

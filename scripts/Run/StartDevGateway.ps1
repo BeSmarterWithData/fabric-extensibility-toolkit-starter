@@ -2,6 +2,10 @@ param (
     [boolean]$InteractiveLogin = $true
 )
 
+# Windows PowerShell 5.1 does not define $IsWindows/$IsMacOS/$IsLinux.
+$isWindowsPlatform = ($PSVersionTable.PSEdition -eq "Desktop") -or ($null -ne (Get-Variable -Name IsWindows -ErrorAction SilentlyContinue) -and $IsWindows)
+$isMacOSPlatform = ($null -ne (Get-Variable -Name IsMacOS -ErrorAction SilentlyContinue) -and $IsMacOS)
+
 ################################################
 # Make sure Manifest is built
 ################################################
@@ -19,7 +23,7 @@ if (Test-Path $buildManifestPackageScript) {
 # Starting the Frontend
 ################################################
 $fileExe = ""
-if($IsWindows) { 
+if($isWindowsPlatform) { 
     $fileExe = Join-Path $PSScriptRoot "..\..\tools\DevGateway\Microsoft.Fabric.Workload.DevGateway.exe"
 } else { 
     $fileExe = Join-Path $PSScriptRoot "..\..\tools\DevGateway\Microsoft.Fabric.Workload.DevGateway.dll"
@@ -32,7 +36,7 @@ Write-Host "Configuration xsfile used: $CONFIGURATIONFILE"
 
 $token = ""
 # When InteractiveLogin is false, always use az commands for authentication
-if (-not $InteractiveLogin -or $env:CODESPACES -eq "true" -or $IsMacOS) {
+if (-not $InteractiveLogin -or $env:CODESPACES -eq "true" -or $isMacOSPlatform) {
     Write-Host "Using non-interactive authentication via az CLI..." -ForegroundColor Green
     
     # Check if already logged in
@@ -52,8 +56,15 @@ $manifestPackageFilePath = $config.ManifestPackageFilePath
 $devWorkspaceId = $config.WorkspaceGuid 
 $logLevel = "Information"
 
+if ([string]::IsNullOrWhiteSpace($manifestPackageFilePath) -or -not (Test-Path $manifestPackageFilePath)) {
+    Write-Host "Manifest package path is missing or invalid in $CONFIGURATIONFILE" -ForegroundColor Red
+    Write-Host "Configured ManifestPackageFilePath: '$manifestPackageFilePath'" -ForegroundColor Red
+    Write-Host "Run scripts\\Setup\\SetupDevEnvironment.ps1 or scripts\\Build\\BuildManifestPackage.ps1, then retry." -ForegroundColor Yellow
+    exit 1
+}
 
-if($IsWindows) { 
+
+if($isWindowsPlatform) { 
     if ($InteractiveLogin -and [string]::IsNullOrEmpty($token)) {
         # Use interactive mode only when explicitly requested and no token available
         Write-Host "Starting DevGateway in interactive mode..." -ForegroundColor Green
@@ -65,7 +76,10 @@ if($IsWindows) {
     }
 } else {   
     # Check if we're on ARM64 Mac and need x64 runtime
-    $arch = uname -m
+    $arch = ""
+    if ($isMacOSPlatform) {
+        $arch = & uname -m
+    }
     if ($arch -eq "arm64") {
         $x64DotnetPath = "/usr/local/share/dotnet/x64/dotnet"
         if (Test-Path $x64DotnetPath) {
