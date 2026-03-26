@@ -9,5 +9,8 @@
     "Workload_Hub_GetStarted_1_Description": "Card1 description",
     "HelloWorldItem_DisplayName": "Hello World",
     "HelloWorldItem_DisplayName_Plural": "Hello Worlds",
-    "HelloWorldItem_Description": "A Hello World Item to start your Dev Experience"
+    "HelloWorldItem_Description": "A Hello World Item to start your Dev Experience",
+    "ImpactIQItem_DisplayName": "ImpactIQ",
+    "ImpactIQItem_DisplayName_Plural": "ImpactIQ Items",
+    "ImpactIQItem_Description": "Automated Power BI & Fabric governance — extract metadata from reports, models, dataflows, and workspaces into a Lakehouse."
 }

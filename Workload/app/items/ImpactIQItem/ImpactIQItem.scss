@@ -1,0 +1,117 @@
+/**
+ * ============================================================================
+ * ImpactIQ Item - Specific Styles
+ * ============================================================================
+ * 
+ * Styles specific to the ImpactIQ governance item.
+ * All classes prefixed with "impactiq-" to indicate item-specific scope.
+ * 
+ * Uses Fabric design tokens for consistency.
+ */
+
+// ============================================================================
+// Main View Container
+// ============================================================================
+
+.impactiq-view {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--spacingVerticalL);
+  padding: var(--spacingHorizontalXXL);
+  box-sizing: border-box;
+}
+
+// ============================================================================
+// Configuration Section
+// ============================================================================
+
+.impactiq-config-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacingVerticalM);
+  width: 100%;
+}
+
+.impactiq-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacingVerticalXS);
+  width: 100%;
+}
+
+.impactiq-field-hint {
+  color: var(--colorNeutralForeground3);
+}
+
+// ============================================================================
+// Status Cards
+// ============================================================================
+
+.impactiq-status-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--spacingHorizontalM);
+  width: 100%;
+}
+
+.impactiq-status-card {
+  min-width: 240px;
+}
+
+// ============================================================================
+// Last Run Info
+// ============================================================================
+
+.impactiq-last-run {
+  display: flex;
+  align-items: center;
+  gap: var(--spacingHorizontalS);
+  padding: var(--spacingVerticalS) 0;
+}
+
+// ============================================================================
+// Table Groups
+// ============================================================================
+
+.impactiq-table-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacingVerticalM);
+  width: 100%;
+}
+
+.impactiq-table-group-card {
+  width: 100%;
+}
+
+.impactiq-table-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacingHorizontalXS);
+  padding: 0 var(--spacingHorizontalM) var(--spacingVerticalM);
+}
+
+.impactiq-table-badge {
+  font-family: var(--fontFamilyMonospace, 'Consolas', monospace);
+}
+
+// ============================================================================
+// Config Summary
+// ============================================================================
+
+.impactiq-config-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacingVerticalXS);
+}
+
+.impactiq-summary-row {
+  display: flex;
+  gap: var(--spacingHorizontalS);
+  align-items: baseline;
+}

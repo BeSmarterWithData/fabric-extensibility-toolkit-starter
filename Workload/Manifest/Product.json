@@ -22,7 +22,8 @@
         "customActions": [
         ]},
         "recommendedItemTypes": [
-          "HelloWorld"
+          "HelloWorld",
+          "ImpactIQ"
         ]
     },
     "createExperience": {
@@ -44,6 +45,27 @@
             "workspace-plus-new-teams"
           ],
           "itemType": "HelloWorld",
+          "createItemDialogConfig": {
+            "onCreationFailure": { "action": "item.onCreationFailure" },
+            "onCreationSuccess": { "action": "item.onCreationSuccess" }
+          }
+        },
+        {
+          "title": "ImpactIQItem_DisplayName",
+          "description": "ImpactIQItem_Description",
+          "icon": {
+            "name": "assets/images/ImpactIQItem_Icon.png"
+          },
+          "icon_small": {
+            "name": "assets/images/ImpactIQItem_Icon.png"
+          },
+          "availableIn": [
+            "home",
+            "create-hub",
+            "workspace-plus-new",
+            "workspace-plus-new-teams"
+          ],
+          "itemType": "ImpactIQ",
           "createItemDialogConfig": {
             "onCreationFailure": { "action": "item.onCreationFailure" },
             "onCreationSuccess": { "action": "item.onCreationSuccess" }

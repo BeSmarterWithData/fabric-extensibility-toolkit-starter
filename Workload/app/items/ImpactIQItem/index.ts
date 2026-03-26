@@ -1,0 +1,1 @@
+export { ImpactIQItemEditor } from './ImpactIQItemEditor';
